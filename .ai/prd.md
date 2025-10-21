@@ -15,6 +15,10 @@ Głównym problemem, który rozwiązuje 10xCards, jest fakt, że manualne tworze
 - RF-006: Każda fiszka musi mieć atrybut wskazujący źródło jej utworzenia (`created_by`: `manual` lub `AI`).
 - RF-007: Integracja z gotowym, zewnętrznym algorytmem powtórek w celu wyświetlania fiszek do nauki.
 - RF-008: Podstawowe opcje personalizacji interfejsu użytkownika (DO ustalenia).
+- RF-009: Pole tekstowe do generowania fiszek oczekuje od 1000 do 10 000 znaków.
+- RF-010: Dane osobowe użytkowników i fiszek przechowywane zgodnie z RODO.
+- RF-011: Prawo do wglądu i usunięcia danych (konto wraz z fiszkami) na wniosek użytkownika.
+- RF-012: Statystyki generowania fiszek - zbieranie informacji o tym, ile fiszek zostało wygenerowanych przez AI i ile z nich ostatecznie zaakceptowano.
 
 ## 4. Granice produktu
 Następujące funkcje celowo NIE wchodzą w zakres wersji MVP (Minimum Viable Product), aby umożliwić szybkie wdrożenie i weryfikację kluczowych założeń:
@@ -23,6 +27,10 @@ Następujące funkcje celowo NIE wchodzą w zakres wersji MVP (Minimum Viable Pr
 - Funkcje społecznościowe, takie jak współdzielenie talii fiszek między użytkownikami.
 - Integracje z zewnętrznymi platformami edukacyjnymi (np. Moodle, Google Classroom).
 - Dedykowane aplikacje mobilne na systemy iOS i Android (projekt będzie dostępny jako aplikacja internetowa).
+- Mechanizmy gamifikacji.
+- Rozbudowany system powiadomień.
+- Zaawansowane wyszukiwanie fiszek po słowach kluczowych.
+- Publicznie dostępne API.
 
 ## 5. Historyjki użytkowników
 
@@ -131,10 +139,25 @@ Następujące funkcje celowo NIE wchodzą w zakres wersji MVP (Minimum Viable Pr
   - Jeśli tekst jest zbyt krótki, po kliknięciu "Generuj fiszki" wyświetlany jest komunikat, np. "Wprowadzony tekst jest zbyt krótki, aby wygenerować fiszki".
   - Proces generowania nie jest uruchamiany.
 
+- ID: US-013
+- Tytuł: Sesja nauki z algorytmem powtórek
+- Opis: Jako zalogowany użytkownik chcę, aby dodane fiszki były dostępne w widoku "Sesja nauki" opartym na zewnętrznym algorytmie, aby móc efektywnie się uczyć (spaced repetition).
+- Kryteria akceptacji:
+  - W widoku "Sesja nauki" algorytm przygotowuje dla mnie sesję nauki fiszek.
+  - Na start wyświetlany jest przód fiszki, poprzez interakcję użytkownik wyświetla jej tył.
+  - Użytkownik ocenia zgodnie z oczekiwaniami algorytmu na ile przyswoił fiszkę.
+  - Następnie algorytm pokazuje kolejną fiszkę w ramach sesji nauki.
+
+- ID: US-014
+- Tytuł: Bezpieczny dostęp i autoryzacja
+- Opis: Jako zalogowany użytkownik chcę mieć pewność, że moje fiszki nie są dostępne dla innych użytkowników, aby zachować prywatność i bezpieczeństwo danych.
+- Kryteria akceptacji:
+  - Tylko zalogowany użytkownik może wyświetlać, edytować i usuwać swoje fiszki.
+  - Nie ma dostępu do fiszek innych użytkowników ani możliwości współdzielenia.
+
 ## 6. Metryki sukcesu
 - Wskaźnik akceptacji fiszek AI: Procent fiszek wygenerowanych przez AI, które zostały zaakceptowane przez użytkowników. Cel: 75%. Mierzony poprzez stosunek liczby kliknięć "Zatwierdź" do całkowitej liczby wygenerowanych fiszek.
 - Stosunek tworzenia fiszek (AI vs. manualnie): Procent fiszek w systemie utworzonych za pomocą AI w porównaniu do tych stworzonych manualnie. Cel: 75% fiszek tworzonych z wykorzystaniem AI. Mierzony za pomocą atrybutu `created_by`.
 - Koszty operacyjne LLM: Regularne monitorowanie kosztów zużycia API modelu językowego w celu zapewnienia rentowności i skalowalności projektu.
 - Wydajność systemu: Śledzenie kluczowych wskaźników wydajności, takich jak średni czas odpowiedzi serwera podczas generowania fiszek oraz ogólna stabilność aplikacji.
 - Adopcja przez społeczność open-source: Po opublikowaniu kodu, śledzenie liczby gwiazdek, forków i kontrybucji w repozytorium projektu (np. na GitHub) jako wskaźnik zainteresowania i zaangażowania społeczności.
-
