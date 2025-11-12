@@ -12,7 +12,7 @@ Głównym problemem, który rozwiązuje 10xCards, jest fakt, że manualne tworze
 - RF-003: Możliwość manualnego tworzenia, edycji i usuwania pojedynczych fiszek.
 - RF-004: Przeglądanie listy wszystkich utworzonych fiszek.
 - RF-005: Mechanizm akceptacji lub odrzucenia fiszek wygenerowanych przez AI.
-- RF-006: Każda fiszka musi mieć atrybut wskazujący źródło jej utworzenia (`created_by`: `manual` lub `AI`).
+- RF-006: Każda fiszka musi mieć atrybut wskazujący źródło jej utworzenia (`created_by`: `manual`, `AI-full`, `AI-edited`).
 - RF-007: Integracja z gotowym, zewnętrznym algorytmem powtórek w celu wyświetlania fiszek do nauki.
 - RF-008: Podstawowe opcje personalizacji interfejsu użytkownika (DO ustalenia).
 - RF-009: Pole tekstowe do generowania fiszek oczekuje od 1000 do 10 000 znaków.
