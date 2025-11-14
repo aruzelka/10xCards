@@ -111,25 +111,40 @@ Z `types.ts`:
 
 ## 5. Przepływ danych
 
-1. **Middleware** (`src/middleware/index.ts`) → weryfikacja auth token → `context.locals.supabase` + `context.locals.user`
-2. **Endpoint** → parsowanie JSON body (try/catch, zwrot 400 jeśli nieprawidłowy) → walidacja Zod (safeParse) → wywołanie service
-3. **Service** → query Supabase z `locals.supabase` i filtrem `user_id` → zwrot danych
-4. **Endpoint** → formatowanie response → `new Response(JSON.stringify(data), { status, headers })`
+1. **Middleware** (`src/middleware/index.ts`) → ustawia `context.locals.supabase` (Supabase client)
+2. **Endpoint** → dostęp do path params przez `context.params` (np. `context.params.id` dla `[id].ts`)
+3. **Endpoint** → parsowanie JSON body (try/catch, zwrot 400 jeśli nieprawidłowy) → walidacja Zod (safeParse) → wywołanie service
+4. **Service** → query Supabase z `locals.supabase` i filtrem `user_id` (obecnie `DEFAULT_USER_ID`) → zwrot danych
+5. **Endpoint** → formatowanie response → `new Response(JSON.stringify(data), { status, headers })`
 
 **Specjalne przypadki**:
 - **POST**: Walidacja `generation_id` - jeśli podane, sprawdź czy generation należy do `user_id` przed insertem (query do tabeli `generations`)
 - **GET list**: Budowanie dynamicznego query z filtrami (`.eq()`, `.order()`, `.range()` dla paginacji)
 - **PATCH/DELETE**: Sprawdzenie czy flashcard należy do użytkownika przed operacją (zwrot 404 jeśli nie)
 
+**Astro routing**:
+- Dynamic routes: `[id].ts` - parametr dostępny jako `context.params.id` (string, wymaga parsowania do number)
+- Query params: dostępne przez `new URL(context.request.url).searchParams`
+
 ## 6. Względy bezpieczeństwa
 
-- Wszystkie endpointy wymagają autentykacji - middleware ustawia `locals.user` (typ: `User` z Supabase Auth)
-- Jeśli `locals.user` jest `undefined` → zwróć 401 na początku endpointu (early return)
-- Row-level filtering: zawsze dodawaj `.eq('user_id', locals.user.id)` do queries
-- Walidacja `generation_id`: przed utworzeniem fiszek sprawdź `SELECT id FROM generations WHERE id = ? AND user_id = ?`
-- Sanityzacja input przez Zod przed zapisem do DB (automatyczne escapowanie przez Supabase)
-- Używanie `locals.supabase` zamiast globalnego importu `supabaseClient`
-- Nigdy nie ujawniaj w response czy zasób istnieje, ale należy do innego użytkownika (zawsze 404)
+**⚠️ UWAGA**: Projekt jest obecnie w fazie development z wyłączoną autentykacją:
+- Middleware ustawia tylko `locals.supabase` (Supabase client)
+- Używany jest `DEFAULT_USER_ID` z `src/db/supabase.client.ts` dla wszystkich operacji
+- **Brak weryfikacji tokenu** - wszystkie endpointy działają bez autentykacji
+
+**Implementacja DEV (obecna)**:
+- Importuj `DEFAULT_USER_ID` z `src/db/supabase.client.ts`
+- Używaj `DEFAULT_USER_ID` jako `user_id` we wszystkich queries i insertach
+- Row-level filtering: `.eq('user_id', DEFAULT_USER_ID)` w queries
+
+**TODO dla produkcji**:
+- Middleware musi weryfikować token z nagłówka `Authorization: Bearer <token>`
+- Middleware powinien ustawić `locals.user` (typ: `User` z Supabase Auth)
+- Endpointy muszą sprawdzać `if (!locals.user)` → zwrot 401
+- Zastąpić `DEFAULT_USER_ID` przez `locals.user.id`
+- Walidacja `generation_id`: sprawdzić czy generation należy do użytkownika
+- Nigdy nie ujawniać czy zasób istnieje, ale należy do innego użytkownika (zawsze 404)
 
 ## 7. Obsługa błędów
 
@@ -140,11 +155,12 @@ Z `types.ts`:
 4. Service może rzucić błędy - obsłużyć lub przekazać do zewnętrznego catch
 
 **Konkretne przypadki**:
-- **401**: Sprawdzenie `if (!locals.user)` na początku endpointu → early return
 - **400**: Nieprawidłowy JSON → `{ error: "Invalid JSON in request body" }`
 - **400**: Zod validation fail → `{ error: "Validation error", details: [...] }` (mapowanie `error.errors`)
-- **404**: Query zwraca null lub empty array → `{ error: "Flashcard not found" }`
+- **404**: Query zwraca null lub empty array dla GET/PATCH/DELETE → `{ error: "Flashcard not found" }`
 - **500**: Unexpected errors → logowanie `console.error()` + `{ error: "An unexpected error occurred" }`
+
+**Uwaga**: Obsługa 401 będzie dodana w przyszłości po implementacji autentykacji w middleware.
 
 ## 8. Rozważania dotyczące wydajności
 
@@ -172,4 +188,3 @@ Z `types.ts`:
    - `/src/pages/api/flashcards/index.ts` - export `GET` i `POST` jako `APIRoute`
    - `/src/pages/api/flashcards/[id].ts` - export `GET`, `PATCH`, `DELETE` jako `APIRoute`
    - Dodać `export const prerender = false;` w obu plikach
-
