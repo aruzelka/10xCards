@@ -6,7 +6,7 @@
  * the database schema to ensure type safety and consistency.
  */
 
-import type { Tables } from './db/database.types';
+import type { Tables } from "./db/database.types";
 
 // ============================================================================
 // Common Types
@@ -15,7 +15,7 @@ import type { Tables } from './db/database.types';
 /**
  * Flashcard source type - tracks the origin of a flashcard
  */
-export type FlashcardSource = 'manual' | 'ai-full' | 'ai-edited';
+export type FlashcardSource = "manual" | "ai-full" | "ai-edited";
 
 /**
  * Pagination metadata for list endpoints
@@ -26,7 +26,6 @@ export interface PaginationDto {
   total: number;
 }
 
-
 // ============================================================================
 // Flashcard DTOs
 // ============================================================================
@@ -35,8 +34,8 @@ export interface PaginationDto {
  * Public flashcard object returned by API (restricted subset of columns)
  */
 export type FlashcardDto = Pick<
-  Tables<'flashcards'>,
-  'id' | 'front' | 'back' | 'source' | 'generation_id' | 'created_at' | 'updated_at'
+  Tables<"flashcards">,
+  "id" | "front" | "back" | "source" | "generation_id" | "created_at" | "updated_at"
 >;
 
 /**
@@ -55,8 +54,8 @@ export interface PaginatedFlashcardsDto {
  * This discriminated union enforces the business rules at type level.
  */
 export type FlashcardCreateDto =
-  | { front: string; back: string; source: 'manual'; generation_id: null }
-  | { front: string; back: string; source: 'ai-full' | 'ai-edited'; generation_id: number };
+  | { front: string; back: string; source: "manual"; generation_id: null }
+  | { front: string; back: string; source: "ai-full" | "ai-edited"; generation_id: number };
 
 /**
  * Command model for creating one or more flashcards
@@ -76,7 +75,7 @@ export interface CreateFlashcardsCommand {
 export interface UpdateFlashcardCommand {
   front?: string;
   back?: string;
-  source?: Extract<FlashcardSource, 'ai-edited' | 'manual'>;
+  source?: Extract<FlashcardSource, "ai-edited" | "manual">;
 }
 
 // ============================================================================
@@ -87,7 +86,7 @@ export interface UpdateFlashcardCommand {
  * Complete generation object returned by API
  * Directly maps to the generations table
  */
-export type GenerationDto = Tables<'generations'>;
+export type GenerationDto = Tables<"generations">;
 
 /**
  * Paginated list of generations
@@ -103,7 +102,7 @@ export interface PaginatedGenerationsDto {
  * Used by GET /api/generations/{id}
  */
 export interface GenerationWithFlashcardsDto extends GenerationDto {
-  flashcards?: FlashcardDto[]; 
+  flashcards?: FlashcardDto[];
 }
 
 /**
@@ -113,7 +112,7 @@ export interface GenerationWithFlashcardsDto extends GenerationDto {
 export interface FlashcardProposalDto {
   front: string;
   back: string;
-  source: 'ai-full';
+  source: "ai-full";
 }
 
 /**
@@ -146,8 +145,8 @@ export interface CreateGenerationCommand {
  * Used by GET /api/generation-error-logs
  */
 export type GenerationErrorLogDto = Pick<
-  Tables<'generation_error_logs'>,
-  'id' | 'error_code' | 'error_message' | 'model' | 'source_text_hash' | 'source_text_length' | 'created_at' | 'user_id'
+  Tables<"generation_error_logs">,
+  "id" | "error_code" | "error_message" | "model" | "source_text_hash" | "source_text_length" | "created_at" | "user_id"
 >;
 
 /**
