@@ -3,6 +3,8 @@
 **Version:** 0.0.1  
 **Status:** Alpha (Initial MVP under active development)
 
+## TODO: Implementujemy endpoint /flacards - wygenerowany opis, należy dogenerować endpointy
+
 ## Description
 
 10xCards is a web application designed to streamline the creation of educational flashcards. Leveraging AI, the platform automatically generates question-and-answer pairs from user-provided text, significantly reducing the time required to prepare effective study materials. Users can also manually create, edit, and organize their flashcards. An integrated spaced repetition algorithm helps optimize retention during study sessions.

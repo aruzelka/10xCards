@@ -63,3 +63,23 @@ export const updateFlashcardSchema = z
   .refine((data) => data.front !== undefined || data.back !== undefined || data.source !== undefined, {
     message: "At least one field must be provided for update",
   });
+
+/**
+ * Schema for flashcard ID path parameter
+ */
+export const flashcardIdSchema = z.coerce.number().int().positive({
+  message: "Flashcard ID must be a positive integer",
+});
+
+/**
+ * Schema for query parameters in GET /api/flashcards
+ */
+export const listFlashcardsQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).optional().default(1),
+  limit: z.coerce.number().int().min(1).max(100).optional().default(10),
+  sort: z.enum(["created_at", "updated_at"]).optional().default("created_at"),
+  order: z.enum(["asc", "desc"]).optional().default("desc"),
+  source: z.enum(["manual", "ai-full", "ai-edited"]).optional(),
+  generation_id: z.coerce.number().int().positive().optional(),
+});
+
