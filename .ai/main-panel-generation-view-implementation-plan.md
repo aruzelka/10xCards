@@ -14,13 +14,14 @@ Komponenty zostaną zaimplementowane w React i umieszczone w katalogu `src/compo
 /src/pages/index.astro
 └── /src/components/GenerationView.tsx (Komponent-kontener)
     ├── /src/components/GenerationForm.tsx (Formularz generowania)
-    │   ├── /src/components/ui/textarea.tsx
-    │   ├── /src/components/ui/button.tsx
-    │   └── /src/components/ui/progress.tsx
+    │   ├── /src/components/ui/textarea.tsx (Pole tekstowe)
+    │   ├── /src/components/ui/button.tsx (Przycisk "Generuj fiszki")
+    │   └── /src/components/ui/progress.tsx (Wskaźnik postępu)
     └── /src/components/ProposalsList.tsx (Lista propozycji)
         ├── /src/components/ProposalCard.tsx (Pojedyncza propozycja)
         │   ├── /src/components/ui/card.tsx
-        │   └── /src/components/ui/checkbox.tsx
+        │   ├── /src/components/ui/checkbox.tsx
+        │   └── /src/components/ui/button.tsx
         └── /src/components/ui/button.tsx (Przycisk "Zatwierdź zaznaczone")
 ```
 
@@ -57,6 +58,7 @@ Komponenty zostaną zaimplementowane w React i umieszczone w katalogu `src/compo
   - `onClick` na `Button`: Wywołanie funkcji `handleAccept` z listą zaznaczonych propozycji.
 - **Warunki walidacji**:
   - Przycisk "Zatwierdź zaznaczone" jest aktywny tylko wtedy, gdy co najmniej jedna propozycja jest zaznaczona (`selectedProposals.length > 0`) i `isAccepting` jest `false`.
+- **Typy**: `ProposalsListProps`.
   - Przycisk "Zatwierdź zaznaczone" jest aktywny tylko wtedy, gdy co najmniej jedna propozycja jest zaznaczona (`selectedProposals.size > 0`) i `isAccepting` jest `false`.
 - **Propsy**:
   - `proposals: FlashcardProposalViewModel[]`
