@@ -210,14 +210,14 @@ Zarządzanie stanem zostanie zrealizowane za pomocą customowego hooka `useGener
 
 ## 11. Kroki implementacji
 1.  **Utworzenie struktury plików**: Stworzenie plików dla komponentów `GenerationView.tsx`, `GenerationForm.tsx`, `ProposalsList.tsx`, `ProposalCard.tsx` w `src/components/` oraz hooka `useGenerationViewModel.ts` w `src/lib/hooks/`.
-1.  **Utworzenie typów ViewModel**: Zdefiniowanie interfejsu `FlashcardProposalViewModel` w nowym pliku `src/lib/types.view-models.ts`, aby oddzielić typy widoku od głównych typów DTO.
-2.  **Utworzenie struktury plików**: Stworzenie plików dla komponentów `GenerationView.tsx`, `GenerationForm.tsx`, `ProposalsList.tsx`, `ProposalCard.tsx` w `src/components/` oraz hooka `useGenerationViewModel.ts` w `src/lib/hooks/`.
-3.  **Implementacja `useGenerationViewModel`**: Zdefiniowanie stanów (`useState`) i pustych funkcji obsługi (`handleGenerate`, `handleAccept`, etc.).
-4.  **Implementacja `GenerationForm`**: Budowa interfejsu formularza z `Textarea` i `Button`. Podłączenie propsów do hooka, w tym walidacji i stanu `isLoading`.
-5.  **Integracja z `POST /api/generations`**: Implementacja logiki `handleGenerate` w hooku, w tym wywołania `fetch`, obsługi odpowiedzi i błędów.
-6.  **Implementacja `ProposalsList` i `ProposalCard`**: Budowa interfejsu listy propozycji. Podłączenie propsów do hooka, w tym logiki zaznaczania.
-7.  **Integracja z `POST /api/flashcards`**: Implementacja logiki `handleAccept` w hooku, w tym mapowania zaznaczonych propozycji na `CreateFlashcardsCommand` i obsługi odpowiedzi.
-8.  **Implementacja `GenerationView`**: Złożenie `GenerationForm` i `ProposalsList` w jeden widok. Wykorzystanie hooka `useGenerationViewModel` do zarządzania całością.
-9.  **Obsługa błędów i komunikatów**: Dodanie komponentu `Toast` do `GenerationView` w celu wyświetlania komunikatów o sukcesie i błędach.
-10. **Stylowanie i testowanie**: Dopracowanie stylów za pomocą Tailwind CSS, weryfikacja dostępności (nawigacja klawiaturą) i manualne przetestowanie całego przepływu.
-11. **Aktualizacja strony głównej**: Zmiana `src/pages/index.astro`, aby renderował komponent `GenerationView.tsx` z atrybutem `client:load`.
+2.  **Utworzenie typów ViewModel**: Zdefiniowanie interfejsu `FlashcardProposalViewModel` w nowym pliku `src/lib/types.view-models.ts`, aby oddzielić typy widoku od głównych typów DTO.
+3**Utworzenie struktury plików**: Stworzenie plików dla komponentów `GenerationView.tsx`, `GenerationForm.tsx`, `ProposalsList.tsx`, `ProposalCard.tsx` w `src/components/` oraz hooka `useGenerationViewModel.ts` w `src/lib/hooks/`.
+4**Implementacja `useGenerationViewModel`**: Zdefiniowanie stanów (`useState`) i pustych funkcji obsługi (`handleGenerate`, `handleAccept`, etc.).
+5**Implementacja `GenerationForm`**: Budowa interfejsu formularza z `Textarea` i `Button`. Podłączenie propsów do hooka, w tym walidacji i stanu `isLoading`.
+6**Integracja z `POST /api/generations`**: Implementacja logiki `handleGenerate` w hooku, w tym wywołania `fetch`, obsługi odpowiedzi i błędów.
+7**Implementacja `ProposalsList` i `ProposalCard`**: Budowa interfejsu listy propozycji. Podłączenie propsów do hooka, w tym logiki zaznaczania.
+8**Integracja z `POST /api/flashcards`**: Implementacja logiki `handleAccept` w hooku, w tym mapowania zaznaczonych propozycji na `CreateFlashcardsCommand` i obsługi odpowiedzi.
+9**Implementacja `GenerationView`**: Złożenie `GenerationForm` i `ProposalsList` w jeden widok. Wykorzystanie hooka `useGenerationViewModel` do zarządzania całością.
+10**Obsługa błędów i komunikatów**: Dodanie komponentu `Toast` do `GenerationView` w celu wyświetlania komunikatów o sukcesie i błędach.
+11**Stylowanie i testowanie**: Dopracowanie stylów za pomocą Tailwind CSS, weryfikacja dostępności (nawigacja klawiaturą) i manualne przetestowanie całego przepływu.
+12. **Aktualizacja strony głównej**: Zmiana `src/pages/index.astro`, aby renderował komponent `GenerationView.tsx` z atrybutem `client:load`.
